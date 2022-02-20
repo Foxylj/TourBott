@@ -2,6 +2,11 @@
 from jetbot import Robot
 
 robot = Robot()
+'''
+Diffential Controler: 
+http://wiki.ros.org/diff_drive_controller 
+
+'''
 
 
 def stop():
