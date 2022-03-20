@@ -1,0 +1,3 @@
+Symlinking /home/jetbot/catkin_ws/devel/share/hector_geotiff_launch/cmake/hector_geotiff_launchConfig.cmake
+Symlinking /home/jetbot/catkin_ws/devel/share/hector_geotiff_launch/cmake/hector_geotiff_launchConfig-version.cmake
+Symlinking /home/jetbot/catkin_ws/devel/lib/pkgconfig/hector_geotiff_launch.pc
