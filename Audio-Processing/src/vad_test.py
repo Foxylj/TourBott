@@ -22,12 +22,7 @@ raw_detection = v.detect_speech()
 speech_labels = v.convert_windows_to_readible_labels(raw_detection)
 # v.plot_detected_speech_regions()
 print(speech_labels)
-# plt.figure()
-# plt.plot(v.data_speech)
-# plt.show()
-# for i in v.data_speech:
-#     print(i)
-print(type(v.data))
+
 list = []
 for index in speech_labels:
     print(type(index))
@@ -37,7 +32,7 @@ for index in speech_labels:
     for i in range(int(sample_rate*x), int(sample_rate*y)):
         # print(i)
         list.append(v.data[i])
-print(list)
+# print(list)
 result = np.array(list)
 result = result.astype(float)
 print(v.data.shape)
