@@ -24,10 +24,20 @@ boolean carInitialize_en = true;
 
 // Digital Pins 8 and 12 control the right motor.
 // Speed is controlled by Digital Pin 10.
-const int in3=8;    
+const int stby_pin=8;   
+ 
 const int in4=12;
 const int enB=6;
 
+// Digital Pins 7 and 6 control the left motor's direction.
+// Speed is controlled by Digital Pin 9.
+const int in1=7;
+
+const int enA=5;
+ 
+const int PinA_left = 2;   // set the left motor’s pulse pin to Digital Pin 1
+const int PinA_right =4; // set the right motor’s pulse pin to Digital Pin 4
+ 
 // How much the PWM value can change each cycle
 const int PWM_INCREMENT = 1;
  
@@ -58,7 +68,7 @@ const int DRIFT_MULTIPLIER = 120;
 const int PWM_TURN = 80;
  
 // Set maximum and minimum limits for the PWM values
-const int PWM_MIN = 80; // about 0.1 m/s
+const int PWM_MIN = 40; // about 0.1 m/s
 const int PWM_MAX = 100; // about 0.172 m/s
  
 // Set linear velocity and PWM variable values for each wheel
@@ -72,15 +82,7 @@ double lastCmdVelReceived = 0;
 
 
 
-// Digital Pins 7 and 6 control the left motor's direction.
-// Speed is controlled by Digital Pin 9.
-const int in1=6;
-const int in2=7;
-const int enA=5;
- 
-const int PinA_left = 2;   // set the left motor’s pulse pin to Digital Pin 1
-const int PinA_right =4; // set the right motor’s pulse pin to Digital Pin 4
- 
+
 int times = 0;    // Time
 int newtime = 0;  // New Time
 int d_time = 100; // Time Interval set to 100ms
@@ -238,36 +240,36 @@ void set_pwm_values() {
  
   // Set the direction of the motors
   if (pwmLeftReq > 0) { // Left wheel forward
-    digitalWrite(in1, HIGH);
-    digitalWrite(in2, LOW);
+    digitalWrite(in1, LOW);
+    
   }
   else if (pwmLeftReq < 0) { // Left wheel reverse
-    digitalWrite(in1, LOW);
-    digitalWrite(in2, HIGH);
+    digitalWrite(in1, HIGH);
+   
   }
   else if (pwmLeftReq == 0 && pwmLeftOut == 0 ) { // Left wheel stop
     digitalWrite(in1, LOW);
-    digitalWrite(in2, LOW);
+  
   }
   else { // Left wheel stop
     digitalWrite(in1, LOW);
-    digitalWrite(in2, LOW); 
+     
   }
  
   if (pwmRightReq > 0) { // Right wheel forward
-    digitalWrite(in3, HIGH);
+   
     digitalWrite(in4, LOW);
   }
   else if(pwmRightReq < 0) { // Right wheel reverse
-    digitalWrite(in3, LOW);
+    
     digitalWrite(in4, HIGH);
   }
   else if (pwmRightReq == 0 && pwmRightOut == 0) { // Right wheel stop
-    digitalWrite(in3, LOW);
+    
     digitalWrite(in4, LOW);
   }
   else { // Right wheel stop
-    digitalWrite(in3, LOW);
+    
     digitalWrite(in4, LOW); 
   }
  
@@ -323,24 +325,26 @@ void setup() {
   // Set all the pins to OUTPUT
   // The motors' speed and direction is controlled by 
   // the output of these pins
-  pinMode(in3,OUTPUT);     
-  pinMode(in4,OUTPUT);
+  pinMode(stby_pin,OUTPUT);     
+  //pinMode(in4,OUTPUT);
   pinMode(enB,OUTPUT);
   pinMode(in1,OUTPUT);
-  pinMode(in2,OUTPUT);
+ // pinMode(in2,OUTPUT);
   pinMode(enA,OUTPUT);
  
   // The pulse pins are set to INPUT
   pinMode(PinA_right,INPUT);
   pinMode(PinA_left,INPUT);   
-  digitalWrite(in1,LOW);
-  digitalWrite(in2,LOW);
-  digitalWrite(in3,LOW);
-  digitalWrite(in4,LOW);
+  //digitalWrite(in1,LOW);
+ // digitalWrite(in2,LOW);
+  //digitalWrite(in3,LOW);
+//  digitalWrite(in4,LOW);
   
-  
+  //set stby_pin 
+  digitalWrite(stby_pin,HIGH); 
   analogWrite(enB,0);  // Right wheel 
   analogWrite(enA,0); // Set Left wheel to be faster than the right wheel
+  
   // write into PWM value 0~255（speed）
  
   // ROS Setup
@@ -357,14 +361,6 @@ void setup() {
 void loop() {
    nh.spinOnce();
 
-
-  // Go forward 
-//  digitalWrite(in3,HIGH); 
-//  digitalWrite(in4,LOW);
-//  digitalWrite(in1,LOW);
-//  digitalWrite(in2,HIGH);
-// 
-  
  
   // Set newtime and times to Returns the number of 
   // milliseconds passed since the Arduino board began 
