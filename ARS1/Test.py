@@ -112,12 +112,8 @@ def run_tests(test_files):
     for test_file in test_files:
         # Read input file
         sampling_freq, signal = wavfile.read(test_file)
-        print(sampling_freq)
-        # Extract MFCC features
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
-            print(signal.shape)
-            print(signal)
             features_mfcc = mfcc(signal, sampling_freq)
 
         # Define variables
@@ -127,11 +123,9 @@ def run_tests(test_files):
         # Run the current feature vector through all the HMM
         # models and pick the one with the highest score
         for item in speech_models:
-            print(item)
             model, label = item
             score = model.compute_score(features_mfcc)
             if score > max_score:
-                print (score)
                 max_score = score
                 predicted_label = label
 
