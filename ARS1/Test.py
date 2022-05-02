@@ -123,6 +123,8 @@ def run_tests(test_files):
         # Extract MFCC features
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
+            print(signal.shape)
+            print(signal)
             features_mfcc = mfcc(signal, sampling_freq)
 
         # Define variables
@@ -158,7 +160,7 @@ if __name__=='__main__':
     speech_models = build_models(input_folder)
 
     # Test files -- the 15th file in each subfolder 
-    test_files = ['01.wav']
+    test_files = ['00.wav']
     '''for root, dirs, files in os.walk(input_folder):
         for filename in (x for x in files if '15' in x):
             filepath = os.path.join(root, filename)
