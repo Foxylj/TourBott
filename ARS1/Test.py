@@ -112,14 +112,7 @@ def run_tests(test_files):
     for test_file in test_files:
         # Read input file
         sampling_freq, signal = wavfile.read(test_file)
-        '''signal = AudioSegment.from_file(test_files)
-        signal = signal.set_frame_rate(NEW_SAMPLERATE)
-        sampling_freq=NEW_SAMPLERATE'''
-        '''
-        old_samplerate, old_audio = wavfile.read(test_file)
-        signal=change_freq(old_samplerate, old_audio)
-        sampling_freq=NEW_SAMPLERATE
-        '''
+        print(sampling_freq)
         # Extract MFCC features
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
@@ -161,9 +154,5 @@ if __name__=='__main__':
 
     # Test files -- the 15th file in each subfolder 
     test_files = ['00.wav']
-    '''for root, dirs, files in os.walk(input_folder):
-        for filename in (x for x in files if '15' in x):
-            filepath = os.path.join(root, filename)
-            test_files.append(filepath)'''
 
     run_tests(test_files)
