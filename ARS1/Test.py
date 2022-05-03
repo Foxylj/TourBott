@@ -1,8 +1,11 @@
 import os
+import sys
+import signal
 import argparse
 from signal import signal
 import warnings
 import numpy as np
+from pynput import mouse
 from scipy.io import wavfile
 from hmmlearn import hmm
 #from speech_features import mfcc
@@ -10,22 +13,21 @@ import speech_recognition
 from python_speech_features import mfcc
 from scipy import interpolate
 
-NEW_SAMPLERATE=8000
 
-def change_freq(old_samplerate, old_audio):
-    if old_samplerate != NEW_SAMPLERATE:
-        duration = old_audio.shape[0] / old_samplerate
-
-        time_old  = np.linspace(0, duration, old_audio.shape[0])
-        time_new  = np.linspace(0, duration, int(old_audio.shape[0] * NEW_SAMPLERATE / old_samplerate))
-
-        interpolator = interpolate.interp1d(time_old, old_audio.T)
-        new_audio = interpolator(time_new).T
-        sampling_freq=NEW_SAMPLERATE
-            #wavfile.write("out.wav", NEW_SAMPLERATE, np.round(new_audio).astype(old_audio.dtype))
-        return new_audio
+def on_click(x, y, button, pressed):
+    if pressed:
+        print('Start')
+        return False
     else:
-        return old_audio
+        print ('End')
+        return False
+
+def record():
+    with mouse.Listener(on_click=on_click) as listener:
+        listener.join()
+    os.system("arecord -D plughw:2,0 -f S16_LE -r 8000 -c 2 -d 3 01.wav")
+    os.system("sox 01.wav -r 8000 00.wav")
+    
 # Define a class to train the HMM 
 class ModelHMM(object):
     def __init__(self, num_components=4, num_iter=1000):
@@ -128,6 +130,7 @@ def run_tests(test_files):
             if score > max_score:
                 max_score = score
                 predicted_label = label
+                print(predicted_label)
 
         # Print the predicted output 
         '''start_index = test_file.find('/') + 1
@@ -145,8 +148,9 @@ if __name__=='__main__':
 
     # Build an HMM model for each word
     speech_models = build_models(input_folder)
+    print("Ready!")
+    #record()
 
-    # Test files -- the 15th file in each subfolder 
     test_files = ['00.wav']
 
     run_tests(test_files)
