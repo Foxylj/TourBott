@@ -50,7 +50,11 @@ class ModelHMM(object):
 
     # Run the HMM model for inference on input data
     def compute_score(self, input_data):
-        return self.model.score(input_data)
+    	return self.model.score(input_data)
+    def save(self, path="models.pkl"):
+		joblib.dump(self.models, path)
+	def load(self, path="models.pkl"):
+		self.models = joblib.load(path)
 
 # Define a function to build a model for each word
 def build_models(input_folder):
@@ -149,8 +153,9 @@ if __name__=='__main__':
     # Build an HMM model for each word
     speech_models = build_models(input_folder)
     print("Ready!")
+    ModelHMM.save()
     #record()
 
     test_files = ['00.wav']
-
+S
     run_tests(test_files)
