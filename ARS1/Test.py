@@ -65,7 +65,8 @@ def build_models(input_folder,input_way):
     if input_way==1:
         for dirname in os.listdir(input_folder):
             # Get the name of the subfolder 
-            print (dirname)
+            if dirname=='.DS_Store':
+                continue
             subfolder = os.path.join(input_folder, dirname)
 
             if not os.path.isdir(subfolder): 
@@ -164,8 +165,21 @@ if __name__=='__main__':
     speech_models = build_models(input_wav,1)
 
     print("Ready!")
-    #record()
+    record()
 
     test_files = ['00.wav']
-
     run_tests(test_files)
+    i='N'
+    '''while i=='N':
+    	run_tests(test_files)
+    	NS=input("Is answer correct?")
+    	print(i=='N')'''
+    
+    
+    
+    
+    
+    
+    
+    
+    
