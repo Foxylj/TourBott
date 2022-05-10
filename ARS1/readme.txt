@@ -8,5 +8,7 @@ When the training is over, it will display "Ready!" and then click any button of
 
 After 3 seconds, the recording ends and the prediction starts.
 
+folder: 'hmm-speech-recognition-0.1/audio' is all the training file stored
+
 References：
 https://github.com/atta007/Speech-Recognizer/blob/main/speech_recognizer.ipynb
