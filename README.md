@@ -20,5 +20,5 @@ RemoteController.ino ~ robot controlls
 
 
 
-Run the Program:
-roslaunch jetson_nano_bot.launch
+Run the Project:
+roslaunch ~/catkin_ws/src/jetson_nano_bot/launch/jetson_nano_bot.launch
